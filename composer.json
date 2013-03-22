@@ -1,0 +1,30 @@
+{
+    "name": "acasademont/wurfl",
+    "type": "library",
+    "description": "WURFL Library port to composer",
+    "keywords": ["wurfl"],
+    "homepage": "http://wurfl.sourceforge.net",
+    "license": "GNU Affero General Public License",
+    "authors": [
+        {
+            "name": "ScientiaMobile, Inc",
+            "email": "sales@scientiamobile.com",
+            "homepage": "http://wurfl.sourceforge.net/"
+        },
+        {
+            "name": "Albert Casademont",
+            "email": "albertcasademont@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5"
+    },
+    "autoload": {
+        "psr-0" : {
+            "WURFL_" : "./"
+        }
+    }
+}
