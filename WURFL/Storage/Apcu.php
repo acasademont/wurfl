@@ -34,7 +34,7 @@ class WURFL_Storage_Apcu extends WURFL_Storage_Base {
 		if(is_array($params))  {
 			array_merge($this->currentParams, $params);
 		}
-		//$this->initialize();
+		$this->initialize();
 	}
 
 
