@@ -21,11 +21,12 @@
  * @package	WURFL_VirtualCapability
  */
  
-class WURFL_VirtualCapability_IsPhone extends WURFL_VirtualCapability {
+class WURFL_VirtualCapability_IsPhone extends WURFL_VirtualCapability
+{
+    protected $required_capabilities = array('can_assign_phone_number', 'is_tablet');
 
-	protected $required_capabilities = array('can_assign_phone_number', 'is_tablet');
-
-	protected function compute() {
-		return ($this->device->can_assign_phone_number && $this->device->is_tablet == 'false');
-	}
+    protected function compute()
+    {
+        return ($this->device->can_assign_phone_number == 'true' && $this->device->is_tablet == 'false');
+    }
 }

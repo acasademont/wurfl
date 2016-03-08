@@ -27,57 +27,32 @@
  * @license	GNU Affero General Public License
  * @version	$id$
  */
-class WURFL_Handlers_BotCrawlerTranscoderHandler extends WURFL_Handlers_Handler {
-	
-	protected $prefix = 'BOT_CRAWLER_TRANSCODER';
-	
-	public function canHandle($userAgent) {
-		foreach ($this->botCrawlerTranscoder as $key) {
-			if (WURFL_Handlers_Utils::checkIfContainsCaseInsensitive($userAgent, $key)) {
-				return true;
-			}
-		}
-		return false;
-	}
+class WURFL_Handlers_BotCrawlerTranscoderHandler extends WURFL_Handlers_Handler
+{
+    protected $prefix = 'BOT_CRAWLER_TRANSCODER';
+    
+    public function canHandle($userAgent)
+    {
+        return WURFL_Handlers_Utils::isRobot($userAgent);
+    }
 
-	private $botCrawlerTranscoder = array(
-		'bot',
-		'crawler',
-		'spider',
-		'novarra',
-		'transcoder',
-		'yahoo! searchmonkey',
-		'yahoo! slurp',
-		'feedfetcher-google',
-		'mowser',
-		'mediapartners-google',
-		'azureus',
-		'inquisitor',
-		'baiduspider',
-		'baidumobaider',
-		'holmes/',
-		'libwww-perl',
-		'netSprint',
-		'yandex',
-		'ineturl',
-		'jakarta',
-		'lorkyll',
-		'microsoft url control',
-		'indy library',
-		'slurp',
-		'crawl',
-		'wget',
-		'ucweblient',
-		'snoopy',
-		'untrursted',
-		'mozfdsilla',
-		'ask jeeves',
-		'jeeves/teoma',
-		'mechanize',
-		'http client',
-		'servicemonitor',
-		'httpunit',
-		'hatena',
-		'ichiro'
-	);
+    public function applyConclusiveMatch($userAgent)
+    {
+        if (WURFL_Handlers_Utils::checkIfContains($userAgent, "GoogleImageProxy")) {
+            return 'google_image_proxy';
+        }
+
+        if (WURFL_Handlers_Utils::checkIfStartsWith($userAgent, "Mozilla")) {
+            $tolerance = WURFL_Handlers_Utils::firstCloseParen($userAgent);
+        } else {
+            $tolerance = WURFL_Handlers_Utils::firstSlash($userAgent);
+        }
+
+        return $this->getDeviceIDFromRIS($userAgent, $tolerance);
+    }
+
+    public function applyRecoveryMatch($userAgent)
+    {
+        return WURFL_Constants::GENERIC_WEB_CRAWLER;
+    }
 }

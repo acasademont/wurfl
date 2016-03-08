@@ -27,16 +27,21 @@
  * @license	GNU Affero General Public License
  * @version	$id$
  */
-class WURFL_Handlers_PantechHandler extends WURFL_Handlers_Handler {
+class WURFL_Handlers_PantechHandler extends WURFL_Handlers_Handler
+{
+    protected $prefix = "PANTECH";
+    
+    public function canHandle($userAgent)
+    {
+        if (WURFL_Handlers_Utils::isDesktopBrowser($userAgent)) {
+            return false;
+        }
+        return WURFL_Handlers_Utils::checkIfStartsWithAnyOf($userAgent, array('Pantech', 'PT-', 'PANTECH', 'PG-'));
+    }
 
-	protected $prefix = "PANTECH";
-	
-	public function canHandle($userAgent) {
-		if (WURFL_Handlers_Utils::isDesktopBrowser($userAgent)) return false;
-		return WURFL_Handlers_Utils::checkIfStartsWithAnyOf($userAgent, array('Pantech', 'PT-', 'PANTECH', 'PG-'));
-	}
-	
-	public function applyConclusiveMatch($userAgent) {
-        return $this->getDeviceIDFromRIS($userAgent, WURFL_Handlers_Utils::firstSlash($userAgent));
-	}
+    public function applyConclusiveMatch($userAgent)
+    {
+        $tolerance = WURFL_Handlers_Utils::firstSlash($userAgent);
+        return $this->getDeviceIDFromRIS($userAgent, $tolerance);
+    }
 }
